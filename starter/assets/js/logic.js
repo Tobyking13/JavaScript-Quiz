@@ -1,76 +1,70 @@
 var startButton = document.getElementById("start");
 var startScreen = document.getElementById("start-screen");
+var questionScreen = document.getElementById("questions");
+var questionTitle = document.getElementById("question-title");
+var choices = document.getElementById("choices");
 var countdown = document.getElementById("time");
-var secondsLeft = 75;
+var timeReset = 75;
+var secondsLeft = timeReset;
 
 startButton.addEventListener("click", function (e) {
-  startScreen.textContent = "";
+  startScreen.setAttribute("class", "hide");
+  questionScreen.setAttribute("class", "");
   setTime();
-  questions()
+  questions();
 });
-
-
 
 function setTime() {
-    var timerInterval = setInterval(function () {
-      secondsLeft--;
-      countdown.textContent = secondsLeft;
-    }, 1000);
-    if (secondsLeft === 0) {
-      clearInterval(timerInterval);
-    };
-  };
+  var timerInterval = setInterval(function () {
+    secondsLeft--;
+    countdown.textContent = secondsLeft;
+  }, 1000);
+  if (secondsLeft === 0) {
+    clearInterval(timerInterval);
+  }
+}
 
 function questions() {
-    var question = document.createElement('h2');
-    var answerList = document.createElement('ul');
 
-    question.textContent = myQuestions.question;
-    startScreen.appendChild(question);
-    startScreen.appendChild(answerList)
+  var questionCount = 0;
 
-    // myQuestions.answers.content.forEach(function(answer, index) {
-    //     var answers = document.createElement('li');
-    //     var button = document.createElement('button');
-    //     answers.setAttribute("class", "answer" + (index + 1))
+  
+  questionTitle.textContent = myQuestions[questionCount].question;
+  
+  questionScreen.appendChild(questionTitle);
+  questionScreen.appendChild(choices);
 
-    //     answers.textContent = answer;
-    //     //button.textContent = 'submit';
+    Object.values(myQuestions[questionCount].answers).forEach(function (answer) {
+      console.log(answer.content);
+      var answers = document.createElement("li");
+      answers.textContent = answer.content;
+      choices.appendChild(answers);
+  
+      answers.addEventListener("click", function (e) {
+        if (answer.answer !== true) {
+          secondsLeft -= 15;
+          questionCount += 1;
+          questionTitle.textContent = myQuestions[questionCount].question;
+        //  answers.textContent = Object.values(myQuestions[questionCount].answers)
 
-    //     answerList.appendChild(answers);
-    //     //answerList.appendChild(button)
 
-    //     console.log(button)
+//          return;
+        } else {
+          secondsLeft = timeReset
+          console.log("right");
+          questionCount += 1;
+          questionTitle.textContent = myQuestions[questionCount].question;
+       //   answers.textContent = Object.values(myQuestions[questionCount].answers)
 
-// console.log(Object.values(myQuestions.answers[0]));
 
-Object.values(myQuestions.answers).forEach(function(answer) {
-    console.log(answer.content)
-    var answers = document.createElement('li');
-    answers.textContent = answer.content
-    answerList.appendChild(answers);
-
-    answers.addEventListener('click', function(e) {
-
-        if(answer.answer !== true) {
-            return;
-        };
-
-        console.log('right');
+        }
+        
+      });
     });
-});
 
-        // answers.addEventListener('click', function(e) {
-        //     console.log(e)
+  
 
-        //     if() {
+  
+};
 
-        //     }
-        // })
-
-
-
-    };
-
-
-console.log(myQuestions)
+console.log(myQuestions);
