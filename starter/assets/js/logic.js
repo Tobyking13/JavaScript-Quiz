@@ -4,67 +4,83 @@ var questionScreen = document.getElementById("questions");
 var questionTitle = document.getElementById("question-title");
 var choices = document.getElementById("choices");
 var countdown = document.getElementById("time");
-var timeReset = 75;
-var secondsLeft = timeReset;
+var feedback = document.getElementById("feedback");
+//var timeReset = 75;
+var secondsLeft = 75;
+var userScore = 0;
 
-startButton.addEventListener("click", function (e) {
-  startScreen.setAttribute("class", "hide");
-  questionScreen.setAttribute("class", "");
-  setTime();
-  questions();
-});
+function startGame() {
+  startButton.addEventListener("click", function () {
+    startScreen.setAttribute("class", "hide");
+    questionScreen.setAttribute("class", "");
+    setTime();
+    questions();
+  });
+};
+
 
 function setTime() {
-  var timerInterval = setInterval(function () {
+    setInterval(function () {
     secondsLeft--;
     countdown.textContent = secondsLeft;
+    if (secondsLeft === 0) {
+      gameOver();
+    };
   }, 1000);
-  if (secondsLeft === 0) {
-    clearInterval(timerInterval);
-  }
-}
+};
 
 function questions() {
-
   var questionCount = 0;
 
-  
+  console.log(userScore)
+
   questionTitle.textContent = myQuestions[questionCount].question;
-  
+
   questionScreen.appendChild(questionTitle);
   questionScreen.appendChild(choices);
 
-    Object.values(myQuestions[questionCount].answers).forEach(function (answer) {
-      console.log(answer.content);
-      var answers = document.createElement("li");
-      answers.textContent = answer.content;
-      choices.appendChild(answers);
-  
-      answers.addEventListener("click", function (e) {
-        if (answer.answer !== true) {
-          secondsLeft -= 15;
-          questionCount += 1;
-          questionTitle.textContent = myQuestions[questionCount].question;
-        //  answers.textContent = Object.values(myQuestions[questionCount].answers)
+  Object.values(myQuestions[questionCount].answers).forEach(function (answer, index) {
+    var answers = document.createElement("button");
+    index += 1;
+    answers.textContent = (index + ". " + answer.content);
+    choices.appendChild(answers);
+
+    answers.addEventListener("click", function (e) {
+      if (answer.answer !== true) {
+        secondsLeft -= 15;
+        questionCount += 1;
+        feedback.setAttribute("class", "feedback");
+        feedback.textContent = "Wrong!";
+      } else {
+        //secondsLeft = timeReset;
+        questionCount += 1;
+        userScore += 5;
+        console.log(userScore)
+        feedback.setAttribute("class", "feedback");
+        feedback.textContent = "Correct!";
+        console.log(userScore)
+        gameOver();
+
+      };
+     // questionTitle.textContent = myQuestions[questionCount].question;
 
 
-//          return;
-        } else {
-          secondsLeft = timeReset
-          console.log("right");
-          questionCount += 1;
-          questionTitle.textContent = myQuestions[questionCount].question;
-       //   answers.textContent = Object.values(myQuestions[questionCount].answers)
-
-
-        }
-        
-      });
+    
     });
-
-  
-
-  
+  });
+  //var answers = document.querySelectorAll('li')
+  //answers.textContent = myQuestions[questionCount].answers[questionCount].content
 };
 
-console.log(myQuestions);
+
+function gameOver() {
+  window.location.replace("highscores.html");
+};
+//console.log(myQuestions[0].answers);
+
+// add score 
+
+// when clock is 0 finish game
+// finish screen showing user score
+// ask user to enter initials to save high score to local storage
+startGame()

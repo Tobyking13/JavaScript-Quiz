@@ -11,13 +11,25 @@
 
   <body>
     <div class="wrapper">
-      <h1>Highscores</h1>
-      <ol id="highscores"></ol>
+      <div id="result-screen" class="">
+        <h1>All done!</h1>
+        <ol id="highscores"></ol>  
+        <form>
+          <label for="user-initial-form">Enter initials:</label>
+          <input type="text" id="user-initial-form" name="inputValue">
+          <button type="submit" id="initial-submit-btn">Submit</button>
+      </form>
+      </div>
+
+      <div id="score-screen" class="hide">
+        <ul id="user-scores">
+        </ul>
+      </div>
 
       <a href="index.html"><button>Go Back</button></a>
       <button id="clear">Clear Highscores</button>
     </div>
-
+    <script src="./assets/js/variables.js"></script>
     <script src="./assets/js/scores.js"></script>
   </body>
 </html>
