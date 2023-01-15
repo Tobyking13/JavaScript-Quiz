@@ -1,53 +1,54 @@
 var userScoreBoard = document.getElementById("user-scores");
-var userInitials = [];
+var userInitials = JSON.parse(localStorage.getItem('userInitials')) || [];
 
+var userScore = require('./logic');
 console.log(userScore)
 
 function getValue() {
-    var inputForm = document.getElementById("user-initial-form");
-    var inputBtn = document.getElementById("initial-submit-btn");
-
-    inputForm.addEventListener("input", function(e) {
+    document.getElementById("user-initial-form").addEventListener("input", function(e) {
         userInitials.push(e.data);
+        localStorage.setItem('userInitials', JSON.stringify(userInitials));
     });
 
-    inputBtn.addEventListener("click", function(e) {
+    document.getElementById("initial-submit-btn").addEventListener("click", function(e) {
         e.preventDefault();
-        userInitials = userInitials.join('');
-        userInitials = userInitials.toUpperCase();
-        console.log(userInitials);
+        userInitials = userInitials.join('').toUpperCase();
         scoreScreen();
-        resultToLocalStorage();
-        scoreBoard();
-
+        scoreBoard();        
+        clearLocalStorage() 
     });
 };
 
 
 function scoreScreen() {
-    var resultScreen = document.getElementById("result-screen");
-    resultScreen.setAttribute("class", "hide");
-    
-    var scoreScreen = document.getElementById("score-screen");
-    scoreScreen.setAttribute("class", "");
+    document.getElementById("result-screen").setAttribute("class", "hide");
+    document.getElementById("score-screen").setAttribute("class", "");
 };
 
 function scoreBoard() {
-    var userInitialLocalStorage = localStorage.getItem("initial");
-    var userScoreLocalStorage = localStorage.getItem("score");
     var userResult = document.createElement("li");
-    userResult.textContent = (`${userInitials} - ${userScore}`);
+    userResult.textContent = `${userInitials} - ${userScore}`;
     userScoreBoard.appendChild(userResult);
+};
 
 
-}
+function clearLocalStorage() {
+    clear = document.getElementById("clear");
+    clear.addEventListener("click", function(e){
+        console.log(e)
+        localStorage.clear();
+        var userResult = document.querySelector('li');
+        userScoreBoard.removeChild(userResult);
+        userInitials = [];
+        userScore = 0;
+    });
+};
 
-function resultToLocalStorage() {
-    localStorage.setItem("initial", userInitials);
-    localStorage.setItem("score", userScore);
-
-
-}
 
 getValue();
 
+
+
+// make userScore work
+// get JSON array to work 
+// get highscores from index.html to show scoreboard

@@ -32,7 +32,6 @@ function setTime() {
 function questions() {
   var questionCount = 0;
 
-  console.log(userScore)
 
   questionTitle.textContent = myQuestions[questionCount].question;
 
@@ -55,10 +54,8 @@ function questions() {
         //secondsLeft = timeReset;
         questionCount += 1;
         userScore += 5;
-        console.log(userScore)
         feedback.setAttribute("class", "feedback");
         feedback.textContent = "Correct!";
-        console.log(userScore)
         gameOver();
 
       };
@@ -76,11 +73,23 @@ function questions() {
 function gameOver() {
   window.location.replace("highscores.html");
 };
-//console.log(myQuestions[0].answers);
 
+function viewScores() {
+  var viewScore = document.getElementById("view-scores");
+  viewScore.addEventListener("click", function(e) {
+    e.preventDefault()
+    window.location.replace("highscores.html")
+    scoreScreen();
+
+    console.log(e)
+  })
+
+}
 // add score 
 
 // when clock is 0 finish game
 // finish screen showing user score
 // ask user to enter initials to save high score to local storage
 startGame()
+viewScores()
+console.log(userScore)
