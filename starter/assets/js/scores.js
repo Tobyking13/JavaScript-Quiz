@@ -1,24 +1,26 @@
 var userScoreBoard = document.getElementById("user-scores");
-var userInitials = JSON.parse(localStorage.getItem('userInitials')) || [];
-
-var userScore = require('./logic');
-console.log(userScore)
+var userScore = JSON.parse(localStorage.getItem('user-score'));
+var userInitials = JSON.parse(localStorage.getItem('user-initials'));
+userInitials = []; 
 
 function getValue() {
-    document.getElementById("user-initial-form").addEventListener("input", function(e) {
-        userInitials.push(e.data);
-        localStorage.setItem('userInitials', JSON.stringify(userInitials));
+    document.getElementById("final-score").textContent = `Your final score is ${userScore}`;
+
+    var input = document.getElementById("user-initial-form");
+    input.addEventListener("submit", function() {
+        userInitials.push(input.value);
+        scoreScreen();
+        scoreBoard();  
     });
 
     document.getElementById("initial-submit-btn").addEventListener("click", function(e) {
         e.preventDefault();
-        userInitials = userInitials.join('').toUpperCase();
+        userInitials.push(input.value);
         scoreScreen();
         scoreBoard();        
-        clearLocalStorage() 
     });
+    clearLocalStorage() 
 };
-
 
 function scoreScreen() {
     document.getElementById("result-screen").setAttribute("class", "hide");
@@ -26,29 +28,27 @@ function scoreScreen() {
 };
 
 function scoreBoard() {
-    var userResult = document.createElement("li");
-    userResult.textContent = `${userInitials} - ${userScore}`;
-    userScoreBoard.appendChild(userResult);
-};
-
-
-function clearLocalStorage() {
-    clear = document.getElementById("clear");
-    clear.addEventListener("click", function(e){
-        console.log(e)
-        localStorage.clear();
-        var userResult = document.querySelector('li');
-        userScoreBoard.removeChild(userResult);
-        userInitials = [];
-        userScore = 0;
+    userInitials.forEach(function(initials) {
+        var userResult = document.createElement("li");
+        userResult.textContent = `${initials} - ${userScore}`;
+        userScoreBoard.appendChild(userResult);
+        localStorage.setItem('user-initials', JSON.stringify(userInitials));
     });
 };
 
+function clearLocalStorage() {
+    clear = document.getElementById("clear");
+    clear.addEventListener("click", function(){
+        localStorage.clear();
+        document.getElementById("final-score").textContent = `Your final score is 0`
+
+        var userResult = document.querySelector('li');
+        userScoreBoard.removeChild(userResult);
+    });
+};
 
 getValue();
 
-
-
-// make userScore work
-// get JSON array to work 
-// get highscores from index.html to show scoreboard
+// make local storage save multiple entries
+// get view highscores to show highscores on highscores.html
+// get the program to show second set of answer

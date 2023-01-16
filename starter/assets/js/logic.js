@@ -5,9 +5,9 @@ var questionTitle = document.getElementById("question-title");
 var choices = document.getElementById("choices");
 var countdown = document.getElementById("time");
 var feedback = document.getElementById("feedback");
-//var timeReset = 75;
 var secondsLeft = 75;
 var userScore = 0;
+//import scoreScreen from './scores'
 
 function startGame() {
   startButton.addEventListener("click", function () {
@@ -17,7 +17,6 @@ function startGame() {
     questions();
   });
 };
-
 
 function setTime() {
     setInterval(function () {
@@ -32,7 +31,6 @@ function setTime() {
 function questions() {
   var questionCount = 0;
 
-
   questionTitle.textContent = myQuestions[questionCount].question;
 
   questionScreen.appendChild(questionTitle);
@@ -44,52 +42,36 @@ function questions() {
     answers.textContent = (index + ". " + answer.content);
     choices.appendChild(answers);
 
-    answers.addEventListener("click", function (e) {
+    answers.addEventListener("click", function () {
       if (answer.answer !== true) {
         secondsLeft -= 15;
         questionCount += 1;
         feedback.setAttribute("class", "feedback");
         feedback.textContent = "Wrong!";
       } else {
-        //secondsLeft = timeReset;
         questionCount += 1;
         userScore += 5;
+        localStorage.setItem("user-score",JSON.stringify(userScore))
         feedback.setAttribute("class", "feedback");
         feedback.textContent = "Correct!";
         gameOver();
-
       };
-     // questionTitle.textContent = myQuestions[questionCount].question;
-
-
-    
     });
   });
-  //var answers = document.querySelectorAll('li')
-  //answers.textContent = myQuestions[questionCount].answers[questionCount].content
 };
-
 
 function gameOver() {
   window.location.replace("highscores.html");
 };
 
 function viewScores() {
-  var viewScore = document.getElementById("view-scores");
-  viewScore.addEventListener("click", function(e) {
-    e.preventDefault()
-    window.location.replace("highscores.html")
-    scoreScreen();
+  document.getElementById("view-scores").addEventListener("click", function(e) {
+    e.preventDefault();
+    //scoreScreen();
+    window.location.replace("highscores.html");
+  });
+};
 
-    console.log(e)
-  })
 
-}
-// add score 
-
-// when clock is 0 finish game
-// finish screen showing user score
-// ask user to enter initials to save high score to local storage
-startGame()
-viewScores()
-console.log(userScore)
+startGame();
+viewScores();
