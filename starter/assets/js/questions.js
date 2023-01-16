@@ -40,5 +40,28 @@ var myQuestions = [
         answer: false,
       },
     ],
-  },
+  }, {
+    question: "Which of the following keywords is used to define a variable in JS?",
+    answers: [
+      {
+        content: "var",
+        answer: true,
+      },
+      {
+        content: "set",
+        answer: false,
+      },
+      {
+        content: "define",
+        answer: false,
+      },
+      {
+        content: "variable",
+        answer: false,
+      },
+    ],
+  }
 ];
+
+
+console.log(myQuestions[0].answers[0].answer)

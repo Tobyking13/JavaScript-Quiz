@@ -16,62 +16,74 @@ function startGame() {
     setTime();
     questions();
   });
-};
+}
 
 function setTime() {
-    setInterval(function () {
+  setInterval(function () {
     secondsLeft--;
     countdown.textContent = secondsLeft;
     if (secondsLeft === 0) {
       gameOver();
-    };
+    }
   }, 1000);
-};
+}
 
 function questions() {
   var questionCount = 0;
 
-  questionTitle.textContent = myQuestions[questionCount].question;
+  function showQuestion(questionNum) {
+    questionTitle.textContent = myQuestions[questionNum].question;
+    choices.innerHTML = ''; // clear previous choices
+    for (let i = 0; i < 4; i++) {
+      var answersButton = document.createElement("button");
+      answersButton.textContent = myQuestions[questionNum].answers[i].content;
+      choices.appendChild(answersButton);
+      answersButton.addEventListener("click", function (e) {
+        if (myQuestions[questionNum].answers[i].answer === true) {
+          userScore += 5;
+          localStorage.setItem("user-score", JSON.stringify(userScore));
+          feedback.setAttribute("class", "feedback");
+          feedback.textContent = "Correct!";
+          if (questionCount < myQuestions.length - 1) {
+            questionCount++;
+            showQuestion(questionCount);
+          } else {
+            gameOver();
+          }
+        } else {
+          secondsLeft -= 15;
+          feedback.setAttribute("class", "feedback");
+          feedback.textContent = "Wrong!";
+          if (questionCount < myQuestions.length - 1) {
+            questionCount++;
+            showQuestion(questionCount);
+          } else {
+            gameOver();
+          }
+        }
+      }.bind(null, i));
+    }
+  }
+  showQuestion(questionCount);
+}
 
-  questionScreen.appendChild(questionTitle);
-  questionScreen.appendChild(choices);
 
-  Object.values(myQuestions[questionCount].answers).forEach(function (answer, index) {
-    var answers = document.createElement("button");
-    index += 1;
-    answers.textContent = (index + ". " + answer.content);
-    choices.appendChild(answers);
 
-    answers.addEventListener("click", function () {
-      if (answer.answer !== true) {
-        secondsLeft -= 15;
-        questionCount += 1;
-        feedback.setAttribute("class", "feedback");
-        feedback.textContent = "Wrong!";
-      } else {
-        questionCount += 1;
-        userScore += 5;
-        localStorage.setItem("user-score",JSON.stringify(userScore))
-        feedback.setAttribute("class", "feedback");
-        feedback.textContent = "Correct!";
-        gameOver();
-      };
-    });
-  });
-};
+
 
 function gameOver() {
   window.location.replace("highscores.html");
-};
+}
 
 function viewScores() {
-  document.getElementById("view-scores").addEventListener("click", function(e) {
-    e.preventDefault();
-    //scoreScreen();
-    window.location.replace("highscores.html");
-  });
-};
-
+  document
+    .getElementById("view-scores")
+    .addEventListener("click", function (e) {
+      e.preventDefault();
+      //scoreScreen();
+      window.location.replace("highscores.html");
+    });
+}
 
 startGame();
 viewScores();
