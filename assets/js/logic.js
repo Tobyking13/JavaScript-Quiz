@@ -42,7 +42,7 @@ function questions() {
           localStorage.setItem('user-score', JSON.stringify(userScore));
           feedback.setAttribute('class', 'feedback')
           feedback.textContent = 'Correct!';
-          var CorrectSound = new Audio ('../starter/assets/sfx/correct.wav');
+          var CorrectSound = new Audio ('../assets/sfx/correct.wav');
           CorrectSound.play();
           if (questionCount < myQuestions.length - 1) {
             questionCount++;
@@ -54,7 +54,7 @@ function questions() {
           secondsLeft -= 15;
           feedback.setAttribute('class', 'feedback');
           feedback.textContent = 'Wrong!';
-          var incorrectSound = new Audio ('../starter/assets/sfx/incorrect.wav');
+          var incorrectSound = new Audio ('../assets/sfx/incorrect.wav');
           incorrectSound.play();
           if (questionCount < myQuestions.length - 1) {
             questionCount++;
