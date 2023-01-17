@@ -1,5 +1,6 @@
 var myQuestions = [
   {
+    //To add another set of questions, copy from this bracket -
     question: "What value does a Boolean give?",
     answers: [
       {
@@ -19,7 +20,7 @@ var myQuestions = [
         answer: false,
       },
     ],
-  },
+  }, // - to this bracket
   {
     question: "What does JSON stand for?",
     answers: [
@@ -40,8 +41,10 @@ var myQuestions = [
         answer: false,
       },
     ],
-  }, {
-    question: "Which of the following keywords is used to define a variable in JS?",
+  },
+  {
+    question:
+      "Which of the following keywords is used to define a variable in JS?",
     answers: [
       {
         content: "var",
@@ -60,8 +63,28 @@ var myQuestions = [
         answer: false,
       },
     ],
-  }
+  },
+  {
+    question: "Which of the following is correct about JavaScript?",
+    answers: [
+      {
+        content: "JavaScript is an Object-Based language",
+        answer: true,
+      },
+      {
+        content: "JavaScript is Assembly-language",
+        answer: false,
+      },
+      {
+        content: "JavaScript is an Object-Oriented language",
+        answer: false,
+      },
+      {
+        content: " JavaScript is a High-level language",
+        answer: false,
+      },
+    ],
+  }, // copiet question object - paste here.
 ];
 
-
-console.log(myQuestions[0].answers[0].answer)
+//console.log(myQuestions[1].answers[1].answer)

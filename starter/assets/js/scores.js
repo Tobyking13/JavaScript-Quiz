@@ -30,6 +30,7 @@ function scoreScreen() {
 function scoreBoard() {
     userInitials.forEach(function(initials) {
         var userResult = document.createElement("li");
+        console.log(userScore)
         userResult.textContent = `${initials} - ${userScore}`;
         userScoreBoard.appendChild(userResult);
         localStorage.setItem('user-initials', JSON.stringify(userInitials));
@@ -51,4 +52,3 @@ getValue();
 
 // make local storage save multiple entries
 // get view highscores to show highscores on highscores.html
-// get the program to show second set of answer

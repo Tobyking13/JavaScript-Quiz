@@ -7,7 +7,6 @@ var countdown = document.getElementById("time");
 var feedback = document.getElementById("feedback");
 var secondsLeft = 75;
 var userScore = 0;
-//import scoreScreen from './scores'
 
 function startGame() {
   startButton.addEventListener("click", function () {
@@ -30,45 +29,45 @@ function setTime() {
 
 function questions() {
   var questionCount = 0;
-
-  function showQuestion(questionNum) {
+  function showQuestions(questionNum) {
     questionTitle.textContent = myQuestions[questionNum].question;
-    choices.innerHTML = ''; // clear previous choices
-    for (let i = 0; i < 4; i++) {
-      var answersButton = document.createElement("button");
-      answersButton.textContent = myQuestions[questionNum].answers[i].content;
-      choices.appendChild(answersButton);
-      answersButton.addEventListener("click", function (e) {
-        if (myQuestions[questionNum].answers[i].answer === true) {
-          userScore += 5;
-          localStorage.setItem("user-score", JSON.stringify(userScore));
-          feedback.setAttribute("class", "feedback");
-          feedback.textContent = "Correct!";
+    choices.textContent = "";
+    for(let i = 0; i < 4; i++) {
+      var answerButton = document.createElement('button');
+      answerButton.textContent = myQuestions[questionNum].answers[i].content;
+      choices.appendChild(answerButton);
+      answerButton.addEventListener('click', function() {
+        if(myQuestions[questionNum].answers[i].answer === true) {
+          userScore+= 5;
+          localStorage.setItem('user-score', JSON.stringify(userScore));
+          feedback.setAttribute('class', 'feedback')
+          feedback.textContent = 'Correct!';
+          var CorrectSound = new Audio ('../starter/assets/sfx/correct.wav');
+          CorrectSound.play();
           if (questionCount < myQuestions.length - 1) {
             questionCount++;
-            showQuestion(questionCount);
+            showQuestions(questionCount);
           } else {
             gameOver();
           }
         } else {
           secondsLeft -= 15;
-          feedback.setAttribute("class", "feedback");
-          feedback.textContent = "Wrong!";
+          feedback.setAttribute('class', 'feedback');
+          feedback.textContent = 'Wrong!';
+          var incorrectSound = new Audio ('../starter/assets/sfx/incorrect.wav');
+          incorrectSound.play();
           if (questionCount < myQuestions.length - 1) {
             questionCount++;
-            showQuestion(questionCount);
+            showQuestions(questionCount);
           } else {
             gameOver();
           }
         }
-      }.bind(null, i));
+      })
     }
   }
-  showQuestion(questionCount);
+  showQuestions(questionCount);
 }
-
-
-
 
 
 function gameOver() {
@@ -80,10 +79,10 @@ function viewScores() {
     .getElementById("view-scores")
     .addEventListener("click", function (e) {
       e.preventDefault();
-      //scoreScreen();
       window.location.replace("highscores.html");
     });
 }
 
 startGame();
 viewScores();
+
