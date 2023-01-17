@@ -45,6 +45,7 @@ function clearLocalStorage() {
 
         var userResult = document.querySelector('li');
         userScoreBoard.removeChild(userResult);
+        userScore = 0;
     });
 };
 

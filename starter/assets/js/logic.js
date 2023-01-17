@@ -21,7 +21,7 @@ function setTime() {
   setInterval(function () {
     secondsLeft--;
     countdown.textContent = secondsLeft;
-    if (secondsLeft === 0) {
+    if (secondsLeft <= 0) {
       gameOver();
     }
   }, 1000);
@@ -82,6 +82,7 @@ function viewScores() {
       window.location.replace("highscores.html");
     });
 }
+
 
 startGame();
 viewScores();
